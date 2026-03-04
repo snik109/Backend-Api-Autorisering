@@ -1,5 +1,8 @@
 const db = require('../data/databaseConnector');
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+
+const secret_key = "secret";
 
 async function findAccount(req, res) {
     try {
@@ -28,7 +31,6 @@ async function createAccount(req, res) {
             'INSERT INTO users (Username, Password_Hash, Email, User_Role) VALUES (?, ?, ?, ?)',
             [Username, passwordHash, Email, User_Role]
         );
-        console.log('Search Results:', rows);
         res.status(200).json({
             message: 'Account created successfully',
             accounts: rows
@@ -47,11 +49,20 @@ async function checkLogIn (req, res) {
             [Username]
         )
         const Password_Hash = rows[0].Password_Hash;
+        const User = rows[0];
         const passwordmatch = await bcrypt.compare(Password, Password_Hash);
-        if (!passwordmatch) return res.status(400).send('Authentication Invalid');
+        if (!User || !passwordmatch) return res.status(400).send('Authentication Invalid');
+
+        const token = jwt.sign({
+            id: User.User_ID,
+            Username: User.Username,
+            Email: User.Email,
+            User_Role: User.User_Role
+        }, secret_key, { expiresIn: '1h' });
+
         res.status(200).json({
             message: 'Authentication successful',
-            accounts: rows
+            token: token
         });
     } catch (err) {
         console.error('Internal Error:', err);
