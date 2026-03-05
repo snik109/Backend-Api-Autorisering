@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { findAccount, createAccount, checkLogIn } = require('../controllers/accountController');
+const { getAllAccounts, createAccount, checkLogIn } = require('../controllers/accountController');
 
 //Get | www.localhost:3872/api/v1.0.0/accounts
-router.get("/", findAccount);
+router.get("/", getAllAccounts);
 router.post("/register", createAccount);
 router.post("/login", checkLogIn);
 
