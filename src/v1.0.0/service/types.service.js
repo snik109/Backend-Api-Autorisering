@@ -11,6 +11,18 @@ class TypeService {
         
         return typeData;
     }
+
+    async getAllTypes() {
+        return await TypeRepo.findAll();
+    }
+
+    async createType(typeName) {
+        return await TypeRepo.create(typeName);
+    }
+
+    async deleteType(typeId) {
+        return await TypeRepo.delete(typeId);
+    }
 }
 
 module.exports = new TypeService();

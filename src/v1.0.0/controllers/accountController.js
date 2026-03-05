@@ -60,4 +60,106 @@ async function login(req, res) {
     }
 }
 
-module.exports = { getAllAccounts, createAccount, login };
+async function updateStatus(req, res) {
+    try {
+        const result = await userService.updateStatus(req.params.id, req.body.isBanned);
+        res.status(200).json({
+            message: 'Account status updated successfully',
+            result
+        });
+    } catch (err) {
+        console.error('Internal Error:', err);
+        res.status(500).send('Internal Error');
+    }
+}
+
+async function updateRole(req, res) {
+    try {
+        const result = await userService.updateRole(req.params.id, req.body.role);
+        res.status(200).json({
+            message: 'Account role updated successfully',
+            result
+        });
+    } catch (err) {
+        console.error('Internal Error:', err);
+        res.status(500).send('Internal Error');
+    }
+}
+
+async function updatePassword(req, res) {
+    try {
+        const result = await userService.updatePassword(req.params.id, req.body.passwordHash);
+        res.status(200).json({
+            message: 'Account password updated successfully',
+            result
+        });
+    } catch (err) {
+        console.error('Internal Error:', err);
+        res.status(500).send('Internal Error');
+    }
+}
+
+async function updateEmail(req, res) {
+    try {
+        const result = await userService.updateEmail(req.params.id, req.body.email);
+        res.status(200).json({
+            message: 'Account email updated successfully',
+            result
+        });
+    } catch (err) {
+        console.error('Internal Error:', err);
+        res.status(500).send('Internal Error');
+    }
+}
+
+async function updateUsername(req, res) {
+    try {
+        const result = await userService.updateUsername(req.params.id, req.body.username);
+        res.status(200).json({
+            message: 'Account username updated successfully',
+            result
+        });
+    } catch (err) {
+        console.error('Internal Error:', err);
+        res.status(500).send('Internal Error');
+    }
+}
+
+async function deleteAccount(req, res) {
+    try {
+        const result = await userService.delete(req.params.id);
+        res.status(200).json({
+            message: 'Account deleted successfully',
+            result
+        });
+    } catch (err) {
+        console.error('Internal Error:', err);
+        res.status(500).send('Internal Error');
+    }
+}
+
+async function findById(req, res) {
+    try {
+        const result = await userService.findById(req.params.id);
+        res.status(200).json({
+            message: 'Account retrieved successfully',
+            result
+        });
+    } catch (err) {
+        console.error('Internal Error:', err);
+        res.status(500).send('Internal Error');
+    }
+}
+
+module.exports = {
+    getAllAccounts,
+    createAccount,
+    login,
+    updateStatus,
+    updateRole,
+    updatePassword,
+    updateEmail,
+    updateUsername,
+    deleteAccount,
+    findById
+};

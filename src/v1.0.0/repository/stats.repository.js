@@ -29,6 +29,11 @@ class StatRepository {
     async delete(id) {
         return await db.query('DELETE FROM stats WHERE Stat_ID = ?', [id]);
     }
+
+    async getAllStats() {
+        const [rows] = await db.query('SELECT * FROM stats');
+        return rows;
+    }
 }
 
 module.exports = new StatRepository();

@@ -17,6 +17,14 @@ class RecipeService {
             layout: grid
         };
     }
+
+    async deleteRecipe(recipeId) {
+        return await RecipeRepo.unlinkRecipe(recipeId);
+    }
+
+    async addRecipe({ recipeId, craftingType, ingredients }) {
+        return await RecipeRepo.addRecipe({ recipeId, craftingType, ingredients });
+    }
 }
 
 module.exports = new RecipeService();

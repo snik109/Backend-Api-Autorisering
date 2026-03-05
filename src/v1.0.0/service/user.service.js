@@ -9,8 +9,7 @@ class UserService {
         const existingUser = await UserRepo.findByEmail(userData.email);
         if (existingUser) throw new Error("Email already registered");
 
-        // 2. Hash the password
-        // The '10' is the cost factor (how many times it scrambles the data)
+        // 2. Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(userData.password, salt);
 
@@ -53,6 +52,34 @@ class UserService {
 
     async getAllUsers() {
         return await UserRepo.findAll();
+    }
+
+    async updateStatus(id, isBanned) {
+        return await UserRepo.updateStatus(id, isBanned);
+    }
+
+    async updateRole(id, role) {
+        return await UserRepo.updateRole(id, role);
+    }
+
+    async updatePassword(id, passwordHash) {
+        return await UserRepo.updatePassword(id, passwordHash);
+    }
+
+    async updateEmail(id, email) {
+        return await UserRepo.updateEmail(id, email);
+    }
+
+    async updateUsername(id, username) {
+        return await UserRepo.updateUsername(id, username);
+    }
+
+    async delete(id) {
+        return await UserRepo.delete(id);
+    }
+
+    async findById(id) {
+        return await UserRepo.findById(id);
     }
 }
 

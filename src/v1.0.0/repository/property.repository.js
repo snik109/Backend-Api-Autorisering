@@ -22,6 +22,16 @@ class PropertyRepository {
     async delete(id) {
         return await db.query('DELETE FROM Properties WHERE property_id = ?', [id]);
     }
+
+    async findAll() {
+        const [rows] = await db.query('SELECT * FROM Properties');
+        return rows.map(r => r.Property_ID);
+    }
+
+    async getById(id) {
+        const [rows] = await db.query('SELECT * FROM Properties WHERE property_id = ?', [id]);
+        return rows[0] || null;
+    }
 }
 
 module.exports = new PropertyRepository();

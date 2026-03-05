@@ -40,7 +40,6 @@ class UserRepository {
         );
         if (!rows[0]) return null;
 
-        // Map to camelCase for the rest of the app
         return this.#mapToEntity(rows[0])
     };
 

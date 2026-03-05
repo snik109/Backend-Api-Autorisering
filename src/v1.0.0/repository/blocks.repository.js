@@ -36,6 +36,11 @@ class BlockRepository {
         }));
     }
 
+    async findAll() {
+        const [rows] = await db.query('SELECT * FROM blocks');
+        return rows.map(r => r.Block_ID);
+    }
+
     async deleteDropByID(id) {
         return await db.query('DELETE FROM item_drops WHERE Drop_ID = ?', [id]);
     }

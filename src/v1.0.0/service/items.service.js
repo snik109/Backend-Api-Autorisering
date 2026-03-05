@@ -17,6 +17,18 @@ class ItemService {
         
         return await ItemRepo.create(itemData);
     }
+
+    async updateItem(id, itemData, userRole) {
+        if (userRole === 'Reader') throw new Error("Insufficient permissions to update items");
+        
+        return await ItemRepo.update(id, itemData);
+    }
+
+    async deleteItem(id, userRole) {
+        if (userRole === 'Reader') throw new Error("Insufficient permissions to delete items");
+        
+        return await ItemRepo.delete(id);
+    }
 }
 
 module.exports = new ItemService();
