@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const secret_key = "secret";
+const secret_key = process.env.JWT_SECRET;
 
 function authToken (req, res, next) {
     const authHeader = req.headers['authorization']
@@ -15,7 +15,7 @@ function authToken (req, res, next) {
 
 function authRole (...allowedRoles) {
     return (req, res, next) => {
-        if (!allowedRoles.includes(req.user.User_Role)) {
+        if (!allowedRoles.includes(req.user.role)) {
             return res.sendStatus(403)
         }
         next()

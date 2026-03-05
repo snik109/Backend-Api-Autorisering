@@ -1,5 +1,5 @@
 // services/RecipeService.js
-const RecipeRepo = require('../repository/items/recipes.repository');
+const RecipeRepo = require('../repository/recipes.repository');
 
 class RecipeService {
     async getHowToCraft(itemId) {

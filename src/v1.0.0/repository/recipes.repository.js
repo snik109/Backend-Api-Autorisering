@@ -1,5 +1,5 @@
 // repositories/RecipeRepository.js
-const db = require('../../data/databaseConnector');
+const db = require('../data/databaseConnector');
 
 class RecipeRepository {
     async findByItemId(itemId) {
@@ -22,6 +22,18 @@ class RecipeRepository {
                 quantity: r.Quantity
             }))
         };
+    }
+
+    async unlinkRecipe(recipeId) {
+        await db.query('DELETE FROM recipe_ingredients WHERE Recipe_ID = ?', [recipeId]);
+        await db.query('DELETE FROM recipes WHERE Recipe_ID = ?', [recipeId]);
+    }
+
+    async addRecipe({ recipeId, craftingType, ingredients }) {
+        await db.query('INSERT INTO recipes (Recipe_ID, Crafting_Type, Result_Item_ID) VALUES (?, ?, ?)', [recipeId, craftingType, ingredients[0].item]);
+        for (const { item, slot, quantity } of ingredients) {
+            await db.query('INSERT INTO recipe_ingredients (Recipe_ID, Slot_Number, Item_ID, Quantity) VALUES (?, ?, ?, ?)', [recipeId, slot, item, quantity]);
+        }
     }
 }
 

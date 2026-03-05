@@ -1,5 +1,5 @@
 // services/UserService.js
-const UserRepo = require('../repository/accounts/user.repository');
+const UserRepo = require('../repository/user.repository');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -43,12 +43,16 @@ class UserService {
                 username: user.username, 
                 email: user.email, 
                 role: user.role 
-            }, 
+            },
             process.env.JWT_SECRET, 
             { expiresIn: '1h' }
         );
 
         return { token, user: { username: user.username, role: user.role } };
+    }
+
+    async getAllUsers() {
+        return await UserRepo.findAll();
     }
 }
 

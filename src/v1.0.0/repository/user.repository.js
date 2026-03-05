@@ -1,5 +1,5 @@
-// repositories/UserRepository.js
-const db = require('../../data/databaseConnector');
+// repositories/user.repository.js
+const db = require('../data/databaseConnector');
 
 class UserRepository {
     #mapToEntity(row) {
@@ -9,9 +9,9 @@ class UserRepository {
             username: row.Username,
             email: row.Email,
             role: row.User_Role,
-            isBanned: !!row.Is_Banned, // Convert 0/1 to true/false
+            isBanned: !!row.Is_Banned,
             createdAt: row.Created_At,
-            passwordHash: row.Password_Hash // Keep private, used for auth
+            passwordHash: row.Password_Hash
         };
     }
 
@@ -41,18 +41,44 @@ class UserRepository {
         if (!rows[0]) return null;
 
         // Map to camelCase for the rest of the app
-        return {
-            id: rows[0].User_ID,
-            username: rows[0].Username,
-            email: rows[0].Email,
-            role: rows[0].User_Role,
-            passwordHash: rows[0].Password_Hash
-        };
-    }
+        return this.#mapToEntity(rows[0])
+    };
 
     async findAll() {
         const [rows] = await db.query('SELECT * FROM users');
         return rows.map(this.#mapToEntity);
+    }
+
+    async delete(id) {
+        return await db.query('DELETE FROM users WHERE User_ID = ?', [id]);
+    }
+
+    async findByEmail(email) {
+        const [rows] = await db.query(
+            'SELECT * FROM users WHERE Email = ?',
+            [email]
+        );
+        return this.#mapToEntity(rows[0]);
+    }
+
+    async updatePassword(id, passwordHash) {
+        const [result] = await db.query('UPDATE users SET Password_Hash = ? WHERE User_ID = ?', [passwordHash, id]);
+        return result.affectedRows > 0;
+    }
+
+    async updateEmail(id, email) {
+        const [result] = await db.query('UPDATE users SET Email = ? WHERE User_ID = ?', [email, id]);
+        return result.affectedRows > 0;
+    }
+
+    async updateUsername(id, username) {
+        const [result] = await db.query('UPDATE users SET Username = ? WHERE User_ID = ?', [username, id]);
+        return result.affectedRows > 0;
+    }
+
+    async updateRole(id, role) {
+        const [result] = await db.query('UPDATE users SET User_Role = ? WHERE User_ID = ?', [role, id]);
+        return result.affectedRows > 0;
     }
 }
 

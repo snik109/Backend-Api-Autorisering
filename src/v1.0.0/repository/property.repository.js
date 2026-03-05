@@ -1,5 +1,5 @@
 // repositories/PropertyRepository.js
-const db = require('../../data/databaseConnector');
+const db = require('../data/databaseConnector');
 
 class PropertyRepository {
     async findByName(name) {

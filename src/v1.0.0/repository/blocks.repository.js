@@ -1,5 +1,5 @@
 // repositories/BlockRepository.js
-const db = require('../../data/databaseConnector');
+const db = require('../data/databaseConnector');
 
 class BlockRepository {
     async findById(id) {
@@ -34,6 +34,24 @@ class BlockRepository {
             max: r.Max_Quantity,
             chance: r.Drop_Chance
         }));
+    }
+
+    async deleteDropByID(id) {
+        return await db.query('DELETE FROM item_drops WHERE Drop_ID = ?', [id]);
+    }
+
+    async deleteBlockByID(id) {
+        return await db.query('DELETE FROM blocks WHERE Block_ID = ?', [id]);
+    }
+
+    async updateBlock(id) {
+        const [result] = await db.query('UPDATE blocks SET Block_Name = ? WHERE Block_ID = ?', [name, id]);
+        return result.affectedRows > 0;
+    }
+
+    async addDrop({ blockId, itemId, min, max, chance }) {
+        const [result] = await db.query('INSERT INTO item_drops (Block_ID, Item_ID, Min_Quantity, Max_Quantity, Drop_Chance) VALUES (?, ?, ?, ?, ?)', [blockId, itemId, min, max, chance]);
+        return result.insertId;
     }
 }
 

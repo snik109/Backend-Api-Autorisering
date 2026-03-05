@@ -1,5 +1,5 @@
 // repositories/ItemRepository.js
-const db = require('../../data/databaseConnector');
+const db = require('../data/databaseConnector');
 
 class ItemRepository {
     async findById(id) {
@@ -32,6 +32,18 @@ class ItemRepository {
             [name, description, rarityId, typeId]
         );
         return result.insertId;
+    }
+
+    async update({ id, name, description, rarityId, typeId }) {
+        const [result] = await db.query(
+            'UPDATE items SET Item_Name = ?, Description = ?, Rarity_ID = ?, Type_ID = ? WHERE Item_ID = ?',
+            [name, description, rarityId, typeId, id]
+        );
+        return result.affectedRows > 0;
+    }
+
+    async deleteByID(id) {
+        return await db.query('DELETE FROM items WHERE Item_ID = ?', [id]);
     }
 }
 

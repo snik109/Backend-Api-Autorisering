@@ -1,5 +1,5 @@
 // services/TypeService.js
-const TypeRepo = require('../repository/items/types.repository');
+const TypeRepo = require('../repository/types.repository');
 
 class TypeService {
     async getTypeBaseStats(typeId) {

@@ -1,5 +1,5 @@
 // repositories/StatRepository.js
-const db = require('../../data/databaseConnector');
+const db = require('../data/databaseConnector');
 
 class StatRepository {
     async create({ name, value }) {
@@ -24,6 +24,10 @@ class StatRepository {
             'INSERT IGNORE INTO types_stats (Type_ID, Stat_ID) VALUES (?, ?)',
             [typeId, statId]
         );
+    }
+
+    async delete(id) {
+        return await db.query('DELETE FROM stats WHERE Stat_ID = ?', [id]);
     }
 }
 

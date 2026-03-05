@@ -1,5 +1,5 @@
 // services/BlockService.js
-const BlockRepo = require('../repository/items/blocks.repository');
+const BlockRepo = require('../repository/blocks.repository');
 
 class BlockService {
     async getBlockDetails(id) {

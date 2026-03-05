@@ -1,5 +1,5 @@
 // repositories/TypeRepository.js
-const db = require('../../data/databaseConnector');
+const db = require('../data/databaseConnector');
 
 class TypeRepository {
     async findByIdWithStats(typeId) {
@@ -28,6 +28,15 @@ class TypeRepository {
     async create(typeName) {
         const [result] = await db.query('INSERT INTO types (Type_Name) VALUES (?)', [typeName]);
         return result.insertId;
+    }
+
+    async delete(id) {
+        return await db.query('DELETE FROM types WHERE Type_ID = ?', [id]);
+    }
+
+    async findAll() {
+        const [rows] = await db.query('SELECT * FROM types');
+        return rows.map(r => r.Type_ID);
     }
 }
 

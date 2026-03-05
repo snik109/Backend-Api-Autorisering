@@ -1,5 +1,5 @@
 // services/ItemService.js
-const ItemRepo = require('../repository/items/items.repository');
+const ItemRepo = require('../repository/items.repository');
 
 class ItemService {
     async getItemWikiData(id) {

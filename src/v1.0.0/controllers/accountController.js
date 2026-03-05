@@ -1,7 +1,3 @@
-const db = require('../data/databaseConnector');
-const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
-
 const userService = require('../service/user.service');
 
 const secret_key = "secret";
@@ -14,11 +10,10 @@ async function getAllAccounts(req, res) {
             message: 'Accounts retrieved successfully',
             accounts: result
         });
-        console.log('Search Results:', rows);
+        console.log('Search Results:', result);
     } catch (err) {
         console.error('Database error:', err);
     }
-    console.log("test");
 }
 
 async function createAccount(req, res) {
@@ -45,7 +40,7 @@ async function login(req, res) {
         const { Username, Password } = req.body;
 
         // Call the service
-        const result = await UserService.login(Username, Password);
+        const result = await userService.login(Username, Password);
 
         // Send success response
         return res.status(200).json({
@@ -65,4 +60,4 @@ async function login(req, res) {
     }
 }
 
-module.exports = { getAllAccounts, createAccount, checkLogIn };
+module.exports = { getAllAccounts, createAccount, login };
